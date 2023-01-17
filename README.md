@@ -1,15 +1,15 @@
 # openCL delegate issue with a sequence of Dense/FullyConnected nodes 
 
-This repo contains scripts and a tool to reproduce the `openCL` delegate issue with a sequence of Dense/FullyConnected nodes. Our experiments revealed that if in our model design, we use a sequence of Dense layers in a special pattern (see the following image), the corresponding tflite version of this model will generate a bunch of `nan` and `inf` values for some random indices in some runs. This issue happens with both FP16 and FP32 tflite versions. This issue can't be reproduced with the `XNNPACK` delegate.
+This repo contains scripts and a tool to reproduce the `openCL` delegate issue with a sequence of Dense/FullyConnected nodes. Our experiments revealed that if we use a sequence of Dense layers in a special pattern (see the following image), the corresponding tflite version of this model will generate a bunch of `nan` and `inf` values for certain random indices in certain runs. This issue happens with both FP16 and FP32 tflite versions. This issue can't be reproduced with the `XNNPACK` delegate.
 
-![pattern](file:///Users/bahareh/Desktop/Screenshot%202023-01-16%20at%202.43.50%20PM.png)
+<img width="153" alt="Screenshot 2023-01-16 at 2 43 50 PM" src="https://user-images.githubusercontent.com/45400368/212793054-8a85b2af-3a8b-47ee-9c90-9e8d58247f4a.png">
 
 ## Converting the model
 * `model_files` folder contains the above-mentioned pattern (`sample_model.h5`) and its corresponding tflite versions (`sample_model_fp32.tflite`, and `sample_model_fp16.tflite`). 
   * You can also use `convert_model.py` to convert this pattern to tflite.
 
 ## tflite_inference tool 
-We have implemented a small tool to feed a random input to our sample tflite model using `openCL` and `XNNPACK` delegates. Run the tool multiple times. You will see that for some runs, there are some `inf` values in the output from the `openCL` delegates. 
+We have implemented a small tool to feed a random input to our sample tflite model using `openCL` and `XNNPACK` delegates. Run the tool multiple times. You will see that for some runs, there are `inf` values in the output from the `openCL` delegate. 
 
 ### PREREQUISITES: ###
 * Linux or Mac host computer
