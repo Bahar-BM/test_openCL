@@ -7,6 +7,8 @@ This repo contains scripts and a tool to reproduce the `openCL` delegate issue w
 ## Converting the model
 * `model_files` folder contains the above-mentioned pattern (`sample_model.h5`) and its corresponding tflite versions (`sample_model_fp32.tflite`, and `sample_model_fp16.tflite`). 
   * You can also use `convert_model.py` to convert this pattern to tflite.
+  
+  Note: `sample_model.h5` is extracted from a large trained model.
 
 ## tflite_inference tool 
 We have implemented a small tool to feed a random input to our sample tflite model using `openCL` and `XNNPACK` delegates. Run the tool multiple times. You will see that for some runs, there are `inf` values in the output from the `openCL` delegate. 
@@ -66,3 +68,8 @@ inf, 34048, 6448, inf, -inf, -29936, 10336, -inf, -35360, inf, inf, inf, 40320, 
 xnnpack output:
 159092, 34167.3, 6507.01, 30145.7, -16468.5, -30071.8, 10657.3, -213111, -35455.5, 59236.4, 187745, 109088, 40159.7, 189144, 115387, 15455.3, 165877, 39716.5, -13815.6, 211712, 52249.9, 66429.5, 140783, 130572, -12844, 241188, 61518.1, -9514.39, -190658, -30316.6, -26623.5, -140136, -17629.3, -31893.8, -73718.8, -8607.2, 44218.3, -50711.9, 44557.1, -27426.1, 56461.4, -30854.3, 138278, 14813.5, 31880.9, 68724.8, -4587.04, 87265.3, 81735.9, 29943.9, 27338, 23023.4, 33413.6, 38988.4, 39238.6, 35762.5, 30767.5, 34308.8, 4932.98, 5111.61, 63130.2, 30683.3, 75698.6, -10461.2, -28918.4, -43359.6, -42086.3, 33322.9, 37274.8, 91469.1, 107788, -11963.6, 16518.4, 90442.4, 48030.6, 70459, 30802.7, -35454.6,  
 ```
+### IMPORTANT UPDATE ###
+We have noticed that sometimes the above-mentioned pattern does not lead into wrong results. Therefore, we think in addition to the pattern structure, the values of weight and bias are also influential factors. In `model_files/correct_results` you can find a pattern instance that does not have the issue of generating `inf` values. 
+
+It is worth noting that both of the pattern instances (the one that leads into wrong `inf` values and the one that does not have this issue) are extracted from trained models.
+
